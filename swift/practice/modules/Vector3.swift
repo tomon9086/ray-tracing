@@ -4,6 +4,11 @@ public class Vector3 {
 	var x: Float
 	var y: Float
 	var z: Float
+	var normalized: Vector3 {
+		get {
+			return self.normalize()
+		}
+	}
 	public init(x: Float, y: Float, z: Float) {
 		self.x = x
 		self.y = y
@@ -46,6 +51,13 @@ public class Vector3 {
 		let mag: Float = self.magnitude()
 		return Vector3(x: self.x / mag, y: self.y / mag, z: self.z / mag)
 		// return nVector3(self)
+	}
+	public func equals(_ vec: Vector3) -> Bool {
+		if(self.x == vec.x && self.y == vec.y && self.z == vec.z) {
+			return true
+		} else {
+			return false
+		}
 	}
 }
 

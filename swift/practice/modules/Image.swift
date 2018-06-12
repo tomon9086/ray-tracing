@@ -19,9 +19,9 @@ public class Image {
 		text += String(height)
 		text += "\n"
 		text += "255\n"
-		for var i in 0 ..< array.count {
-			for var j in 0 ..< array[i].count {
-				for var k in 0 ..< 3 {
+		for i in 0 ..< array.count {
+			for j in 0 ..< array[i].count {
+				for k in 0 ..< 3 {
 					text += String(f(array[i][j])[k])
 					if(k < 2) {
 						text += " "
