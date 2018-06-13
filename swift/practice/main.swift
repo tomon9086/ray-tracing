@@ -34,7 +34,7 @@ arr = Array(repeating: Array(repeating: Vector3(x: 0, y: 0, z: 0), count: width)
 let scene: [Shape] = [
 	Sphere(
 		position: Vector3(x: 0, y: 0, z: 0),
-		radius: 1.0)
+		radius: 1)
 ]
 let intersections: [Intersection] = []
 
@@ -51,12 +51,12 @@ for y in 0 ..< height {
 		var min: Intersection? = nil
 		for shape in scene {
 			let intersection: Intersection? = shape.intersect(ray)
-			if(min == nil || min!.distance > intersection!.distance) {
+			if min == nil || min!.distance > intersection!.distance {
 				min = intersection
 			}
 		}
 		if min != nil {
-			arr[height - y - 1][x] = min!.normal / 2.0 + Vector3(x: 0.5, y: 0.5, z: 0.5)
+			arr[height - y - 1][x] = min!.normal / 2 + Vector3(x: 0.5, y: 0.5, z: 0.5)
 		} else {
 			arr[height - y - 1][x] = Vector3(x: 0, y: 0, z: 0)
 		}

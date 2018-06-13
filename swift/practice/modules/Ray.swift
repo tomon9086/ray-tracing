@@ -40,19 +40,22 @@ public struct Sphere: Shape {
 	public func intersect(_ ray: Ray) -> Intersection? {
 		let po = ray.origin - self.position
 		let b = ray.direction.dot(po)
-		let c = po.magnitude() - self.radius * self.radius
+		let c = pow(po.magnitude(), 2) - self.radius * self.radius
 		let det = b * b - c
-		if det < 0.0 {
+		if det < 0 {
 			return nil
+			// return Intersection(position: Vector3(x: 1, y: 0, z: 0), normal: Vector3(x: 1, y: 0, z: 0), distance: 1)
 		}
 		let t1 = -b - sqrt(det)
 		let t2 = -b + sqrt(det)
 		if t1 < self.eps && t2 < self.eps {
 			return nil
+			// return Intersection(position: Vector3(x: 1, y: 0, z: 0), normal: Vector3(x: 1, y: 0, z: 0), distance: 1)
 		}
 		let distance = t1 > self.eps ? t1 : t2
 		let position = ray.origin + ray.direction * distance
 		let normal = (position - self.position).normalize()
+		// return Intersection(position: Vector3(x: 1, y: 0, z: 0), normal: Vector3(x: 1, y: 0, z: 0), distance: 1)
 		return Intersection(position: position, normal: normal, distance: distance)
 	}
 }
