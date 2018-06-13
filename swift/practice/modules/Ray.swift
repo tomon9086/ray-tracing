@@ -4,8 +4,8 @@ public struct Ray {
 	public var origin: Vector3
 	public var direction: Vector3
 	public init(origin: Vector3, direction: Vector3) {
-		self.origin = Vector3(x: origin.normalized.x, y: origin.normalized.y, z: origin.normalized.z)
-		self.direction = Vector3(x: direction.x, y: direction.y, z: direction.z)
+		self.origin = Vector3(x: origin.x, y: origin.y, z: origin.z)
+		self.direction = Vector3(x: direction.normalized.x, y: direction.normalized.y, z: direction.normalized.z)
 	}
 }
 

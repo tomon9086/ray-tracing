@@ -34,14 +34,14 @@ arr = Array(repeating: Array(repeating: Vector3(x: 0, y: 0, z: 0), count: width)
 let scene: [Shape] = [
 	Sphere(
 		position: Vector3(x: 0, y: 0, z: 0),
-		radius: 0.3)
+		radius: 1)
 ]
 let intersections: [Intersection] = []
 
 for y in 0 ..< height {
 	for x in 0 ..< width {
 		let ray = Ray(
-			origin: Vector3(x: 0, y: 0, z: 10),
+			origin: Vector3(x: 0, y: 0, z: 5),
 			direction: Vector3(
 				x: Float(x) / Float(width) - 0.5,
 				y: Float(y) / Float(height) - 0.5,
