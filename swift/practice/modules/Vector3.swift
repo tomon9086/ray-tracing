@@ -9,6 +9,11 @@ public class Vector3 {
 			return self.normalize()
 		}
 	}
+	var norm: Float {
+		get {
+			return self.magnitude()
+		}
+	}
 	public init(x: Float, y: Float, z: Float) {
 		self.x = x
 		self.y = y
@@ -44,8 +49,11 @@ public class Vector3 {
 	public func cross(_ vec: Vector3) -> Vector3 {
 		return Vector3(x: self.y * vec.z + self.z * vec.y, y: self.z * vec.x + self.x * vec.z, z: self.x * vec.y + self.y * vec.x)
 	}
-	public func magnitude() -> Float {
+	public func sq_magnitude() -> Float {
 		return self.dot(self)
+	}
+	public func magnitude() -> Float {
+		return sqrt(self.sq_magnitude())
 	}
 	public func normalize() -> Vector3 {
 		let mag: Float = self.magnitude()
