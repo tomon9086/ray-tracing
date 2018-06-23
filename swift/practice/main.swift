@@ -1,19 +1,19 @@
-let vec1 = Vector3(x: 1, y: 2, z: 3)
-let vec2 = Vector3(x: 1.5, y: 2, z: 3.1415926535)
+// let vec1 = Vector3(x: 1, y: 2, z: 3)
+// let vec2 = Vector3(x: 1.5, y: 2, z: 3.1415926535)
 
-print("-vec1 =       " + (-vec1).tos())
-print("vec1 + vec2 = " + (vec1 + vec2).tos())
-print("vec1 - vec2 = " + (vec1 - vec2).tos())
-print("vec1 * 2 =    " + (vec1 * 2).tos())
-print("vec1 * vec2 = " + (vec1 * vec2).tos())
-print("vec1 / 2 =    " + (vec1 / 2).tos())
-print("vec1 / vec2 = " + (vec1 / vec2).tos())
-print("vec1・vec2 =  " + String(vec1.dot(vec2)))
-// print("" + Vector3(x: 1, y: 0, z: 0).cross(Vector3(x: 0, y: 1, z: 0)).tos())
-print("vec1 × vec2 = " + vec1.cross(vec2).tos())
-print("|vec1| =      " + String(vec1.magnitude()))
-print("vec1/|vec1| = " + vec1.normalize().tos())
-print("vec1/|vec1| = " + vec1.normalized.tos())
+// print("-vec1 =       " + (-vec1).tos())
+// print("vec1 + vec2 = " + (vec1 + vec2).tos())
+// print("vec1 - vec2 = " + (vec1 - vec2).tos())
+// print("vec1 * 2 =    " + (vec1 * 2).tos())
+// print("vec1 * vec2 = " + (vec1 * vec2).tos())
+// print("vec1 / 2 =    " + (vec1 / 2).tos())
+// print("vec1 / vec2 = " + (vec1 / vec2).tos())
+// print("vec1・vec2 =  " + String(vec1.dot(vec2)))
+// // print("" + Vector3(x: 1, y: 0, z: 0).cross(Vector3(x: 0, y: 1, z: 0)).tos())
+// print("vec1 × vec2 = " + vec1.cross(vec2).tos())
+// print("|vec1| =      " + String(vec1.magnitude()))
+// print("vec1/|vec1| = " + vec1.normalize().tos())
+// print("vec1/|vec1| = " + vec1.normalized.tos())
 
 // Image.output(array: [[1, 2, 3], [4, 5, 6], [7, 8, 9]], dir: "./output")
 
@@ -34,7 +34,10 @@ arr = Array(repeating: Array(repeating: Vector3(x: 0, y: 0, z: 0), count: width)
 let scene: [Shape] = [
 	Sphere(
 		position: Vector3(x: 0, y: 0, z: 0),
-		radius: 1)
+		radius: 1),
+	Sphere(
+		position: Vector3(x: 0, y: -100000, z: 0),
+		radius: 100000)
 ]
 let intersections: [Intersection] = []
 
@@ -51,12 +54,19 @@ for y in 0 ..< height {
 		var min: Intersection? = nil
 		for shape in scene {
 			let intersection: Intersection? = shape.intersect(ray)
-			if min == nil || min!.distance > intersection!.distance {
-				min = intersection
+			switch(min, intersection) {
+				case (.some(let m), .some(let i)):
+					if m.distance > i.distance {
+						min = intersection
+					}
+				case (.none, .some):
+					min = intersection
+				default:
+					break
 			}
 		}
-		if min != nil {
-			arr[height - y - 1][x] = min!.normal / 2 + Vector3(x: 0.5, y: 0.5, z: 0.5)
+		if case let m? = min {
+			arr[height - y - 1][x] = m.normal / 2 + Vector3(x: 0.5, y: 0.5, z: 0.5)
 		} else {
 			arr[height - y - 1][x] = Vector3(x: 0, y: 0, z: 0)
 		}
