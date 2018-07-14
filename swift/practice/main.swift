@@ -34,12 +34,16 @@ arr = Array(repeating: Array(repeating: Vector3(x: 0, y: 0, z: 0), count: width)
 let scene: [Shape] = [
 	Sphere(
 		position: Vector3(x: 0, y: 0, z: 0),
-		radius: 1),
+		radius: 1,
+		material: Material(color: Vector3(x: 1, y: 0, z: 0), emission: Vector3(x: 0, y: 0, z: 0))),
 	Sphere(
-		position: Vector3(x: 0, y: -100000, z: 0),
-		radius: 100000)
+		position: Vector3(x: 0, y: -100001, z: 0),
+		radius: 100000,
+		material: Material(color: Vector3(x: 1, y: 1, z: 1), emission: Vector3(x: 0, y: 0, z: 0)))
 ]
 let intersections: [Intersection] = []
+let pointlight: Vector3 = Vector3(x: 2, y: 5, z: 2)
+let directionallight: Vector3 = Vector3(x: 2, y: 5, z: 2).normalized
 
 for y in 0 ..< height {
 	for x in 0 ..< width {
@@ -55,18 +59,21 @@ for y in 0 ..< height {
 		for shape in scene {
 			let intersection: Intersection? = shape.intersect(ray)
 			switch(min, intersection) {
-				case (.some(let m), .some(let i)):
+				case(.some(let m), .some(let i)):
 					if m.distance > i.distance {
 						min = intersection
 					}
-				case (.none, .some):
+				case(.none, .some):
 					min = intersection
 				default:
 					break
 			}
 		}
 		if case let m? = min {
-			arr[height - y - 1][x] = m.normal / 2 + Vector3(x: 0.5, y: 0.5, z: 0.5)
+			// arr[height - y - 1][x] = m.normal / 2 + Vector3(x: 0.5, y: 0.5, z: 0.5)
+			let light_direction = (pointlight - m.position).normalized
+			// arr[height - y - 1][x] = m.material.color * (light_direction.dot(m.normal))
+			arr[height - y - 1][x] = m.material.color * (directionallight.dot(m.normal))
 		} else {
 			arr[height - y - 1][x] = Vector3(x: 0, y: 0, z: 0)
 		}

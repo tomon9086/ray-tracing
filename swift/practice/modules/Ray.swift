@@ -9,33 +9,50 @@ public struct Ray {
 	}
 }
 
+public struct Material {
+	public var color: Vector3
+	public var emission: Vector3
+	public init(color: Vector3, emission: Vector3) {
+		self.color = color
+		self.emission = emission
+	}
+}
+
 public struct Intersection {
-	var position: Vector3
-	var normal: Vector3
-	var distance: Float
-	public init(position: Vector3, normal: Vector3, distance: Float) {
+	public var position: Vector3
+	public var normal: Vector3
+	public var distance: Float
+	public var material: Material
+	public init(position: Vector3, normal: Vector3, distance: Float, material: Material) {
 		self.position = Vector3(x: position.x, y: position.y, z: position.z)
 		self.normal = Vector3(x: normal.normalized.x, y: normal.normalized.y, z: normal.normalized.z)
 		self.distance = distance
+		self.material = material
 	}
 }
 
 public protocol Shape {
 	// var eps: Float { get set }
+	var material: Material { get set }
 	func intersect(_ ray: Ray) -> Intersection?
 }
 extension Shape {
 	public var eps: Float {
 		return 0.001
 	}
+	// public var material: Material {
+	// 	return Material(color: Vector3(x: 0, y: 0, z: 0), emission: Vector3(x: 0, y: 0, z: 0))
+	// }
 }
 
 public struct Sphere: Shape {
 	public var position: Vector3
 	public var radius: Float
-	public init(position: Vector3, radius: Float) {
+	public var material: Material
+	public init(position: Vector3, radius: Float, material: Material) {
 		self.position = position
 		self.radius = radius
+		self.material = material
 	}
 	public func intersect(_ ray: Ray) -> Intersection? {
 		let po = ray.origin - self.position
@@ -56,6 +73,6 @@ public struct Sphere: Shape {
 		let position = ray.origin + ray.direction * distance
 		let normal = (position - self.position).normalize()
 		// return Intersection(position: Vector3(x: 1, y: 0, z: 0), normal: Vector3(x: 1, y: 0, z: 0), distance: 1)
-		return Intersection(position: position, normal: normal, distance: distance)
+		return Intersection(position: position, normal: normal, distance: distance, material: self.material)
 	}
 }
