@@ -1,4 +1,4 @@
 .DS_Store
-/documents/
-output/
-test
+/references/
+test/
+*.out
